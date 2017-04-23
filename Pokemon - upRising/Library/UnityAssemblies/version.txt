@@ -1,0 +1,9 @@
+5.4.0f3:3.1.0.0
+StandaloneOSXIntel64
+E:/Program Files/Unity 5.4.0f3/Editor/Data/Managed/UnityEngine.dll
+E:/Program Files/Unity 5.4.0f3/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
+E:/Program Files/Unity 5.4.0f3/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll
+E:/Program Files/Unity 5.4.0f3/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll
+E:/Program Files/Unity 5.4.0f3/Editor/Data/Managed/UnityEditor.dll
+E:/Program Files/Unity 5.4.0f3/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll
+E:/Program Files/Unity 5.4.0f3/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Common.dll
