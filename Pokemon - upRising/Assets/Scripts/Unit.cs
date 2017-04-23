@@ -16,7 +16,8 @@ public class Unit : MonoBehaviour
 
 	void Update() 
 	{
-		if (map.selectedUnit.gameObject.name == this.gameObject.name) {
+		if (map.selectedUnit.gameObject.name == this.gameObject.name)
+        {
 			isSelected = true;
 		} 
 		else 

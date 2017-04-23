@@ -7,6 +7,7 @@ public class TileMap : MonoBehaviour
 	#region Variables
 	[SerializeField] Camera gameCamera;
 	[SerializeField] GameManager gameManager;
+    [SerializeField] GameObject unitPrefab;
 
 	public GameObject selectedUnit;
 	public TileType[] tileTypes;
@@ -342,5 +343,13 @@ public class TileMap : MonoBehaviour
 		}
 
 	}
+
+    public void SpawnUnits()
+    {
+        /*GameObject unitSelectCanvas = GameObject.Find("UnitSelectCanvas");
+        SelectionUIManager selectionUIManager = unitSelectCanvas.GetComponent<SelectionUIManager>();*/
+
+        Instantiate(unitPrefab, new Vector3(5, 5, 0), Quaternion.identity);
+    }
 
 }

@@ -15,6 +15,8 @@ public class SelectionUIManager : MonoBehaviour
     Text RocketTamerNumberText;
     [SerializeField]
     Text RocketSquadNumberText;
+    [SerializeField]
+    GameObject unitSelectCanvas;
 
     public int MaxUnitsToTake;
     public int UnitsTaken;
@@ -103,7 +105,15 @@ public class SelectionUIManager : MonoBehaviour
 
     public void StartBattleButtonPressed()
     {
+        GameObject map = GameObject.Find("Map");
+        TileMap tileMapScript = map.GetComponent<TileMap>();
 
+        for (int i = 0; i < UnitsTaken; i++)
+        {
+            tileMapScript.SpawnUnits();
+        }
+
+        unitSelectCanvas.SetActive(false);
     }
 
     // Use this for initialization
