@@ -107,11 +107,52 @@ public class SelectionUIManager : MonoBehaviour
     {
         GameObject map = GameObject.Find("Map");
         TileMap tileMapScript = map.GetComponent<TileMap>();
+		GameObject gameManager = GameObject.Find ("Game Manager");
+		GameManager gameManagerScript = gameManager.GetComponent<GameManager> ();
 
-        for (int i = 0; i < UnitsTaken; i++)
+		for (int i = 0; i < RocketThiefsRecruited; i++)
         {
-            tileMapScript.SpawnUnits();
+            tileMapScript.SpawnRocketThiefUnits();
         }
+		for (int i = 0; i < RocketGruntsRecruited; i++)
+		{
+			tileMapScript.SpawnRocketGruntUnits();
+		}
+		for (int i = 0; i < RocketTamersRecruited; i++)
+		{
+			tileMapScript.SpawnRocketTamerUnits();
+		}
+		for (int i = 0; i < RocketSquadsRecruited; i++)
+		{
+			tileMapScript.SpawnRocketSquadUnits();
+		}
+
+		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Rocket Thief"))
+		{
+			gameManagerScript.unitList.Add(unit);
+			gameManagerScript.rocketThiefList.Add (unit);
+		}
+		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Rocket Grunt"))
+		{
+			gameManagerScript.unitList.Add(unit);
+			gameManagerScript.rocketGruntList.Add (unit);
+		}
+		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Rocket Tamer"))
+		{
+			gameManagerScript.unitList.Add(unit);
+			gameManagerScript.rocketTamerList.Add (unit);
+		}
+		foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Rocket Squad"))
+		{
+			gameManagerScript.unitList.Add(unit);
+			gameManagerScript.rocketSquadList.Add (unit);
+		}
+		foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+		{
+			gameManagerScript.enemyList.Add(enemy);
+		}
+
+		tileMapScript.SelectUnit ();
 
         unitSelectCanvas.SetActive(false);
     }

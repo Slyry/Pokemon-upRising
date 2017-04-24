@@ -7,7 +7,10 @@ public class TileMap : MonoBehaviour
 	#region Variables
 	[SerializeField] Camera gameCamera;
 	[SerializeField] GameManager gameManager;
-    [SerializeField] GameObject unitPrefab;
+    [SerializeField] GameObject rocketThiefPrefab;
+	[SerializeField] GameObject rocketGruntPrefab;
+	[SerializeField] GameObject rocketTamerPrefab;
+	[SerializeField] GameObject rocketSquadPrefab;
 
 	public GameObject selectedUnit;
 	public TileType[] tileTypes;
@@ -32,7 +35,7 @@ public class TileMap : MonoBehaviour
 
 	void Update()
 	{
-		SelectUnit ();
+		
 	}
 
 	//Determines where to place tiles
@@ -188,7 +191,8 @@ public class TileMap : MonoBehaviour
 	}
 
 	//????
-	public Vector3 TileCoordToWorldCoord(int x, int y) {
+	public Vector3 TileCoordToWorldCoord(int x, int y) 
+	{
 		return new Vector3(x, y, 0);
 	}
 
@@ -295,7 +299,7 @@ public class TileMap : MonoBehaviour
 	}
 
 	//Changes the currently selected unit
-	void SelectUnit()
+	public void SelectUnit()
 	{
 		selectedUnit = gameManager.unitList [unitIndexNumber];
 	}
@@ -305,51 +309,62 @@ public class TileMap : MonoBehaviour
 	{
 		Unit unitScript = selectedUnit.GetComponent<Unit> ();
 
-		if(unitScript.isSelected == true)
+		float remainingMovement = unitScript.moveSpeed;
+
+		while (remainingMovement > 0) 
 		{
-			float remainingMovement = unitScript.moveSpeed;
+			if (unitScript.currentPath == null)
+				return;
 
-			while (remainingMovement > 0) {
-				if (unitScript.currentPath == null)
-					return;
+			// Get cost from current tile to next tile
+			remainingMovement -= CostToEnterTile (unitScript.currentPath [0].x, unitScript.currentPath [0].y, unitScript.currentPath [1].x, unitScript.currentPath [1].y);
 
-				// Get cost from current tile to next tile
-				remainingMovement -= CostToEnterTile (unitScript.currentPath [0].x, unitScript.currentPath [0].y, unitScript.currentPath [1].x, unitScript.currentPath [1].y);
+			// Move us to the next tile in the sequence
+			unitScript.tileX = unitScript.currentPath [1].x;
+			unitScript.tileY = unitScript.currentPath [1].y;
 
-				// Move us to the next tile in the sequence
-				unitScript.tileX = unitScript.currentPath [1].x;
-				unitScript.tileY = unitScript.currentPath [1].y;
+			selectedUnit.transform.position = TileCoordToWorldCoord (unitScript.tileX, unitScript.tileY);	// Update our unity world position
 
-				selectedUnit.transform.position = TileCoordToWorldCoord (unitScript.tileX, unitScript.tileY);	// Update our unity world position
+			// Remove the old "current" tile
+			unitScript.currentPath.RemoveAt (0);
 
-				// Remove the old "current" tile
-				unitScript.currentPath.RemoveAt (0);
+			if (unitScript.currentPath.Count == 1)
+			{
+				// We only have one tile left in the path, and that tile MUST be our ultimate
+				// destination -- and we are standing on it!
+				// So let's just clear our pathfinding info.
+				unitScript.currentPath = null;
 
-				if (unitScript.currentPath.Count == 1)
+				unitIndexNumber++;
+
+				if (unitIndexNumber > gameManager.unitList.Count - 1)
 				{
-					// We only have one tile left in the path, and that tile MUST be our ultimate
-					// destination -- and we are standing on it!
-					// So let's just clear our pathfinding info.
-					unitScript.currentPath = null;
-
-					unitIndexNumber++;
-
-					if (unitIndexNumber > gameManager.unitList.Count - 1)
-					{
-						unitIndexNumber = 0;
-					}
+					unitIndexNumber = 0;
 				}
+
+				SelectUnit ();
 			}
 		}
-
 	}
 
-    public void SpawnUnits()
+    public void SpawnRocketThiefUnits()
     {
-        /*GameObject unitSelectCanvas = GameObject.Find("UnitSelectCanvas");
-        SelectionUIManager selectionUIManager = unitSelectCanvas.GetComponent<SelectionUIManager>();*/
-
-        Instantiate(unitPrefab, new Vector3(5, 5, 0), Quaternion.identity);
+        Instantiate(rocketThiefPrefab, new Vector3(4, 1, 0), Quaternion.identity);
     }
+
+	public void SpawnRocketGruntUnits()
+	{
+		Instantiate(rocketGruntPrefab, new Vector3(6, 1, 0), Quaternion.identity);
+	}
+
+	public void SpawnRocketTamerUnits()
+	{
+		Instantiate(rocketTamerPrefab, new Vector3(8, 1, 0), Quaternion.identity);
+	}
+
+	public void SpawnRocketSquadUnits()
+	{
+		Instantiate(rocketSquadPrefab, new Vector3(10, 1, 0), Quaternion.identity);
+	}
 
 }
